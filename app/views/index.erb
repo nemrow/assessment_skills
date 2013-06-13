@@ -1,5 +1,31 @@
 <div class="container">
   <h1>User Skills and Levels</h1>
+  <% if current_user %>
+  <form action="/new_skill" method="post">
+    <input type="text" name="skill" placeholder="skill">
+    <input type="text" name="years" placeholder="years">
+    <input type="text" name="formal" placeholder="formal training?">
+    <input type="submit" value="submit">
+  </form>
+  <% end %>
 
+  <table width="100%">
+    <tr>
+      <td>Name</td>
+      <td>Skill</td>
+      <td>Years</td>
+      <td>Formal?</td>
+    </tr>
+      <% @users.each do |user| %>
+        <% user.skills.each do |skill| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= skill.name %></td>
+          <td><%= skill.proficiencies.where(:user_id => user.id.to_i).first.years %></td>
+          <td><%= skill.proficiencies.where(:user_id => user.id.to_i).first.formal %></td>
+        </tr>
+        <% end %>
+      <% end %>
+  </table>
   <%# TODO: display the skills and proficiency levels for each user ... %>
 </div>

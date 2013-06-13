@@ -1,9 +1,27 @@
 get '/' do
   # render home page
   @users = User.all
-
+  @skills = Skill.all
   erb :index
 end
+
+#------------ ADD NEW SKILL -------------------
+
+post '/new_skill' do
+  skill = Skill.find_or_create_by_name(:name => params[:skill], :context => "creative") 
+  new_skill = Proficiency.new(:user_id => current_user.id,
+                              :skill_id => skill.id,
+                              :years => params[:years],
+                              :formal => params[:formal]
+                              )
+  new_skill.save
+  redirect to '/'
+end
+
+get '/logout' do
+  session[:user_id] = nil
+end
+
 
 #----------- SESSIONS -----------
 

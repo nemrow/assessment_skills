@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :skills, :through => :proficiencies
+  has_many :proficiencies
   attr_reader :entered_password
 
   validates :name, :length => { :minimum => 3, :message => "must be at least 3 characters, fool!" }
